@@ -70,7 +70,41 @@ public class TestDiceJobs {
 		
 				
 
+	        String line = null;
 	       
+			try {	           
+	            FileReader fileReader = 
+	                new FileReader("jobslist.txt");
+	            BufferedReader bufferedReader = 
+	                new BufferedReader(fileReader);
+	            
+	            while((line = bufferedReader.readLine()) != null) {
+	            	
+	            	
+	        		driver.get("http://dice.com");
+	        		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	        		
+	        		
+	        			driver.findElement(By.id("search-field-keyword")).sendKeys(line);
+	        			driver.findElement(By.id("search-field-location")).clear();
+	        			driver.findElement(By.id("search-field-location")).sendKeys("22204");
+	        			driver.findElement(By.id("findTechJobs")).click();
+	        			String count = driver.findElement(By.id("posiCountId")).getText();
+	        			secondkey.add("Job position: "+ line + " - has " + count.replace(",", "") +
+	        					" position openings in your area");
+	        			
+	        				        			                
+	            }   
+	            bufferedReader.close(); 	           	            
+	        }	        
+	        catch(IOException ex) {
+	            System.out.println(
+	                "Error reading file"); 
+	        }
+			for(String prints: secondkey) {
+    			System.out.println(prints);
+    		}
+			driver.close();
 	
 	}
 }
